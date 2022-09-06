@@ -10,7 +10,7 @@ from project.main_dir.service.genre import GenreService
 def genre_dao():
     dao = GenreDAO(None)
 
-    dao.get_one = MagicMock(return_value={'id': 1})
+    dao.get_one = MagicMock()
     dao.get_all = MagicMock()
     dao.create = MagicMock()
     dao.delete = MagicMock()
@@ -27,9 +27,9 @@ class TestGenreService:
 
     @pytest.mark.parametrize('ind, gid', parameters)
     def test_get_one(self, ind, gid):
-        genre = self.genre_service.get_one(gid)
-        assert genre != None
-        assert genre == gid
+        self.genre_service.dao.get_one.return_value = gid
+        assert gid != None
+        assert self.genre_service.get_one(ind) == gid, "Bad"
 
     parameters = (([1, {'id': 1}, 2, {'id': 2}]))
 

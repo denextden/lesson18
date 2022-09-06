@@ -10,7 +10,7 @@ from project.main_dir.service.movie import MovieService
 def movie_dao():
     dao = MovieDAO(None)
 
-    dao.get_one = MagicMock(return_value={'id': 1})
+    dao.get_one = MagicMock()
     dao.get_all = MagicMock()
     dao.create = MagicMock()
     dao.delete = MagicMock()
@@ -27,9 +27,8 @@ class TestMovieService:
 
     @pytest.mark.parametrize('ind, mid', parameters)
     def test_get_one(self, ind, mid):
-        movie = self.movie_service.get_one(ind)
-        assert movie != None
-        assert movie == mid
+        self.movie_service.dao.get_one.return_value = mid
+        assert self.movie_service.get_one(ind) == mid, "Bad"
 
     parameters = (([1, {'id': 1}, 2, {'id': 2}]))
 

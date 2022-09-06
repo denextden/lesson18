@@ -27,9 +27,9 @@ class TestDirectorService:
 
     @pytest.mark.parametrize('ind, did', parameters)
     def test_get_one(self, ind, did):
-        director = self.director_service.get_one(did)
-        assert director != None
-        assert director == did
+        self.director_service.dao.get_one.return_value = did
+        assert did != None
+        assert self.director_service.get_one(ind) == did, "Bad"
 
     parameters = (([1, {'id': 1}, 2, {'id': 2}]))
 
